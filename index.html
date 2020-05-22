@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .center{
+        margin: auto;
+        width: 60%;
+        padding: 35px;
+    }
+</style>
+<body  class="center" style="background-color:powderblue;">
+
+    <div class="center" style="color:darkgoldenrod">
+        ***   COVID Stats, Country wise Ex: India (ind), Australia (aus), USA, Russia   ***
+    </div>
+    <div><button type="button" class="center" style="background-color:#441744; color:goldenrod" id="myBtn">Click to Get Stats</button>
+        <input type="text" id="myText" placeholder="Type in Country here!!!"> 
+    </div>
+    
+    
+    <div id="output" class="center" style="width:100%; min-height:100px; padding:20px; border:sienna; border-width: 5px; color:rgb(153, 97, 24)">Welcome</div>
+    <script>
+        var myContainer = "";
+        document.getElementById("myBtn").addEventListener("click", myFun);
+    
+        function myFun() {
+            var myTxt = document.getElementById("myText").value;
+            var a = new XMLHttpRequest();
+            a.onreadystatechange = function () {    
+                if (a.readyState == 4 && a.status == 200) {
+                    document.getElementById("output").innerHTML = "<pre>"+JSON.stringify(JSON.parse(this.responseText), undefined, "\t")+"</pre>";
+                }
+                if (a.readyState == 4 && (a.status == 404 || a.status == 500)) {
+                    document.getElementById("output").innerHTML = "Not Found";
+                }
+    
+            }
+            a.open("GET", "https://corona.lmao.ninja/v2/countries/"+myTxt, true);
+            a.setRequestHeader("Content-type", "application/json");
+            a.send();
+        }
+    </script>
+</body>
+</html>
+
